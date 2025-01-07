@@ -1,0 +1,41 @@
+{
+  "short_name": "暗記",
+  "name": "暗記アプリ",
+  "description": "オフラインでも使える暗記アプリ。問題と答えを追加して、カテゴリーごとに管理できます。",
+  "icons": [
+    {
+      "src": "icon128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "lang": "ja",
+  "orientation": "portrait",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "2244x1264",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshot2.png",
+      "sizes": "376x670",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗記アプリ</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon512.png">
+    <link rel="icon" href="icon512.png">
+    <script src="service-worker.js" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>暗記アプリ</h1>
+        <div>
+            <label for="category-select">カテゴリーを選択:</label>
+            <select id="category-select">
+                <option value="">すべて</option>
+            </select>
+        </div>
+        <div id="flashcard-container"></div>
+        <input type="text" id="answer-input" autocapitalize="off" placeholder="答えを入力">
+        <button id="submit-answer" type="button">回答</button>
+        <div id="result"></div>
+        <div class="blank"></div>
+        <hr>
+        <h2>問題を追加</h2>
+        <input type="text" id="new-question" autocapitalize="off" placeholder="新しい問題">
+        <input type="text" id="new-answer" autocapitalize="off" placeholder="答え">
+        <input type="text" id="new-category" autocapitalize="off" placeholder="カテゴリー">
+        <button id="add-flashcard" type="button">追加</button>
+        <h2>問題一覧</h2>
+        <button id="toggle-flashcard-list" type="button">問題を表示</button>
+        <div id="flashcard-list-container" class="hidden"></div>
+    </div>
+    <footer>
+        <p>&copy; 2025 hoimohu</p>
+    </footer>
+</body>
+
+</html>
