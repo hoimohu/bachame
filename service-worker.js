@@ -1,11 +1,16 @@
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open('flashcard-app').then((cache) => {
+        caches.open('flashcard-cache-v2').then((cache) => {
             return cache.addAll([
                 'index.html',
                 'app.css',
                 'app.js',
                 'manifest.webmanifest',
+                'icon128.png',
+                'icon192.png',
+                'icon512.png',
+                'screenshot1.png',
+                'screenshot2.png',
             ]);
         })
     );
@@ -20,7 +25,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-    const cacheWhitelist = ['flashcard-cache-v1'];
+    const cacheWhitelist = ['flashcard-cache-v2'];
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(

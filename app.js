@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const categorySelect = document.getElementById("category-select");
   const flashcardListContainer = document.getElementById("flashcard-list-container");
   const toggleFlashcardListButton = document.getElementById("toggle-flashcard-list");
+  const exportFlashcardsButton = document.getElementById("export-flashcards");
+  const importFileInput = document.getElementById("import-file");
+  const importFlashcardsButton = document.getElementById("import-flashcards");
 
   let isEditing = false;
   let editingId = null;
@@ -236,6 +239,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function exportFlashcards() {
+    const transaction = db.transaction(["flashcards"], "readonly");
+    const objectStore = transaction.objectStore("flashcards");
+    const request = objectStore.getAll();
+
+    request.onsuccess = (event) => {
+      const flashcards = event.target.result;
+      const categories = {};
+      flashcards.forEach((flashcard) => {
+        if (!categories[flashcard.category]) {
+          categories[flashcard.category] = [];
+        }
+        categories[flashcard.category].push(flashcard);
+      });
+
+      const blob = new Blob([JSON.stringify(categories, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "flashcards.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  }
+
+  function importFlashcards() {
+    const file = importFileInput.files[0];
+    if (!file) {
+      alert("ファイルを選択してください。");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const categories = JSON.parse(event.target.result);
+      const transaction = db.transaction(["flashcards"], "readwrite");
+      const objectStore = transaction.objectStore("flashcards");
+
+      for (const category in categories) {
+        categories[category].forEach((flashcard) => {
+          objectStore.put(flashcard);
+        });
+      }
+
+      transaction.oncomplete = () => {
+        displayFlashcardList();
+      };
+
+      transaction.onerror = (event) => {
+        console.error("Transaction error:", event.target.errorCode);
+      };
+    };
+    reader.readAsText(file);
+  }
+
   submitAnswerButton.addEventListener("click", checkAnswer);
   answerInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
@@ -246,6 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
   reloadFlashcardButton.addEventListener("click", displayFlashcard);
   categorySelect.addEventListener("change", displayFlashcard);
   toggleFlashcardListButton.addEventListener("click", toggleFlashcardList);
+  exportFlashcardsButton.addEventListener("click", exportFlashcards);
+  importFlashcardsButton.addEventListener("click", importFlashcards);
 
   displayFlashcard();
   displayFlashcardList();

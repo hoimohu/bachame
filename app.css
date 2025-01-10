@@ -118,6 +118,7 @@ h1 {
 .visible {
     max-height: 1000px; /* 適切な最大高さを設定 */
     transition: max-height 0.5s ease-in;
+    overflow-y: scroll;
 }
 
 .blank {
